@@ -51,21 +51,27 @@ var_dump($username);
 
     <?php ActiveForm::end(); ?>
 
-    <div class="col-lg-offset-1" style="color:#999;">
-        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-        To modify the username/password, please check out the code <code>app\models\User::$users</code>.
-    </div>
+    
 </div>
  <?php } ?>
 <?php if($loggedIn){?>
  
  
-<?= Html::a('Create Ad', ['create']);  }; ?>
+
+<?= Html::a('Create Ad', ['create'], ['style'=>'color:green;font-size:20px;'])."<br><br>"; } ?>
+
+<?php if($username == 'admin'){?>
+
+<?= Html::a('Upload an image', ['upload'], ['style'=>'color:green;font-size:20px;']);   ?>
+
+<?php } else { echo "";}?>
 
 
 <h1>Ads</h1>
+<div style="overflow-x:auto;">
 <table class="table table-hover">
   <tr>
+   <th>image</th>
     <th>title</th>
     <th>description</th>
     <th>author name</th>
@@ -82,16 +88,22 @@ var_dump($username);
   ?>
    
     <tr>
-     <td><?= Html::a($announcement->announcementTitle, ['show', 'announcementId'=>$announcement->announcementId]); ?></td>
+     <td><?php foreach ($images as $image): ?>
+     <?php if($announcement->imageId == $image->id){ ?>
+     <?= Html::img($image->imagePath, ['alt' => $announcement->announcementTitle, 'style'=>'width:250px;']); ?>
+     <?php }; ?>
+     <?php endforeach; ?></td>
+     <td><?= Html::a($announcement->announcementTitle, ['show', 'announcementId'=>$announcement->announcementId], ['style'=>'color:green;font-size:20px;']); ?></td>
      <td><?= $announcement->announcementDescription ?></td>
      <td><?= $announcement->announcementAuthorName ?></td>
      <td><?= $announcement->announcementCreationDate ?></td>    
      <?php if ($userId[0]["siteuserId"] === $announcement->siteuserId) {?>
-     <td><?= Html::a('Delete', ['delete', 'announcementId'=>$announcement->announcementId], ['class'=>'label label-danger']) ?></td> 
-     <td><?= Html::a('Edit', ['edit', 'announcementId'=>$announcement->announcementId], ['class'=>'label label-primary']) ?></td>
+     <td><button style="width:100px;height:35px;background-color:red;"><?= Html::a('Delete', ['delete', 'announcementId'=>$announcement->announcementId], ['style'=>'text-decoration:none;color:white;']) ?></button></td> 
+     <td><button style="width:100px;height:35px;background-color:blue;"><?= Html::a('Edit', ['edit', 'announcementId'=>$announcement->announcementId], ['style'=>'text-decoration:none;color:white;']) ?></button></td>
      <?php } ?>
   </tr>
 <?php endforeach; ?>
 </table>
+ <div>
 
 <?= LinkPager::widget(['pagination' => $pagination]) ?>

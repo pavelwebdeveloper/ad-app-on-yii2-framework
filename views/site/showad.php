@@ -13,6 +13,13 @@ var_dump($username);
  
  <h1><?php echo $message; ?></h1>
  
+ <div style="display:flex;flex-direction:row;">
+ <div>  
+ <?= Html::img($image, ['alt' => $announcement->announcementTitle, 'style'=>'width:250px;']) ?>
+  
+  </div>
+ 
+ <div>
  <ul>
   
   <li><b>title:</b>&nbsp;&nbsp;<?= $announcement->announcementTitle ?></li>
@@ -24,7 +31,9 @@ var_dump($username);
   <li><b>creation date:</b>&nbsp;&nbsp;<?= $announcement->announcementCreationDate ?></li>
   
  </ul>
- 
+  </div>
+ </div>
+  
  <?php if ($loggedIn && (int)$userId[0]["siteuserId"]==$announcement->siteuserId){?>
  
  <?= Html::a('Delete', ['delete', 'announcementId'=>$announcement->announcementId], ['class'=>'label label-danger']) ?>

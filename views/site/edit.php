@@ -6,6 +6,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use app\models\Image;
 
 /* This code is for test purposes
 var_dump($post);
@@ -34,6 +35,15 @@ echo date('Y-m-d')." ".date('h:i:s');
             'labelOptions' => ['class' => 'col-lg-1 control-label'],
         ],
     ]); ?>
+    
+    <?php if($username == 'admin'){?>
+    <?= $form->field($model, 'imageId')->dropdownList(
+    Image::find()->select(['imagePath', 'id'])->indexBy('id')->column(),
+    ['value'=> $announcement->imageId, 'prompt'=>'Select Image']) ?>
+    
+    <?php } else {?>
+    
+    <?= $form->field($model, 'imageId')->hiddenInput(['value'=> $announcement->imageId])->label(false); } ?>
 
         <?= $form->field($model, 'title')->textInput(['value'=> $announcement->announcementTitle, 'autofocus' => true]) ?>
 

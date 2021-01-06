@@ -6,6 +6,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use app\models\Image;
 
 /* This code is for test purposes
 var_dump($loggedIn);
@@ -22,7 +23,7 @@ echo date('Y-m-d')." ".date('h:i:s');
  
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to add a new ad:</p>
+    <p>Please fill out the following fields to add a new ad. Please, notice that the photos can be uploaded only by the admin user:</p>
 
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
@@ -32,6 +33,15 @@ echo date('Y-m-d')." ".date('h:i:s');
             'labelOptions' => ['class' => 'col-lg-1 control-label'],
         ],
     ]); ?>
+    
+    <?php if($username == 'admin'){?>
+    <?= $form->field($model, 'imageId')->dropdownList(
+    Image::find()->select(['imagePath', 'id'])->indexBy('id')->column(),
+    ['prompt'=>'Select Image']) ?>
+    
+    <?php } else {?>
+    
+    <?= $form->field($model, 'imageId')->hiddenInput(['value'=> '../images/rope.jpg'])->label(false); } ?>
 
         <?= $form->field($model, 'title')->textInput(['autofocus' => true]) ?>
 

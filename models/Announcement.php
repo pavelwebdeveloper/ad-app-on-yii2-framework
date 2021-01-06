@@ -30,7 +30,8 @@ class Announcement extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['announcementTitle', 'announcementDescription', 'announcementAuthorName', 'siteuserId'], 'required'],
+            [['imageId', 'announcementTitle', 'announcementDescription', 'announcementAuthorName', 'siteuserId'], 'required'],
+            [['imageId'], 'integer'],
             [['announcementDescription'], 'string'],
             [['announcementCreationDate'], 'safe'],
             [['siteuserId'], 'integer'],
@@ -45,6 +46,7 @@ class Announcement extends \yii\db\ActiveRecord
     {
         return [
             'announcementId' => 'Announcement ID',
+            'imageId' => 'Image ID',
             'announcementTitle' => 'Announcement Title',
             'announcementDescription' => 'Announcement Description',
             'announcementAuthorName' => 'Announcement Author Name',

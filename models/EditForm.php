@@ -15,6 +15,7 @@ use yii\web\Session;
  */
 class EditForm extends Model
 {
+    public $imageId;   
     public $title;
     public $description;
     public $author;
@@ -24,6 +25,7 @@ class EditForm extends Model
     public function create()
             {
      $announcement = new Announcement();
+     $announcement->imageId = (int)$this->imageId;
      $announcement->announcementTitle = $this->title;
      $announcement->announcementDescription = $this->description;
      $announcement->announcementAuthorName = $this->author;
@@ -39,7 +41,7 @@ class EditForm extends Model
     {
         return [
             // username and password are both required
-            [['title', 'description', 'author', 'datetime', 'siteuserId'], 'required'],
+            [['imageId', 'title', 'description', 'author', 'datetime', 'siteuserId'], 'required'],
         ];
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+// This is the anouncement controller
+
 namespace app\controllers;
 
 use Yii;
@@ -15,6 +17,9 @@ use app\models\LoginForm;
 use app\models\EditForm;
 use yii\data\Pagination;
 use app\models\Announcement;
+use app\models\Image;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
 
 
 
@@ -76,6 +81,10 @@ class SiteController extends Controller
      $username = "name";
      
       $query = Announcement::find();
+      
+       $images = Image::find()
+           ->indexBy('id')
+           ->all();
 
         $pagination = new Pagination([
             'defaultPageSize' => 5,
@@ -97,6 +106,7 @@ class SiteController extends Controller
             'loggedIn' => $session->get('loggedIn'),
             'userId' => $session->get('userId'),
             'username'=>$session->get('username'),
+                'images'=> $images,
         ]);
         }
 
@@ -119,6 +129,7 @@ class SiteController extends Controller
              'loggedIn' => $session->get('loggedIn'),
              'userId' => $session->get('userId'),
              'username'=>$session->get('username'),
+                'images'=> $images,
         ]);
         }
 
@@ -130,9 +141,41 @@ class SiteController extends Controller
             'loggedIn' => $session->get('loggedIn'),
             'userId' => $session->get('userId'),
             'username'=>$session->get('username'),
+            'images'=> $images,
         ]);      
         
         return $this->render('index');
+    }
+    
+    /**
+     * Upload action.
+     *
+     * @return Response|string
+     */
+    
+    public function actionUpload()
+    {
+        $model = new UploadForm();
+        
+        if (Yii::$app->request->isPost) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                // file is uploaded successfully
+             $success_message = "File is uploaded successfully";
+                return $this->render('upload', [
+                    'model' => $model,
+                    'success_message' => $success_message,
+                        ]);
+            }
+        }
+        
+              
+
+        return $this->render('upload', [
+            'model' => $model,
+             'success_message' => "",
+            
+            ]);
     }
     
     /**
@@ -148,6 +191,10 @@ class SiteController extends Controller
      // var_dump($announcementId);
      
         $query = Announcement::find();
+        
+         $images = Image::find()
+           ->indexBy('id')
+           ->all();
 
         $pagination = new Pagination([
             'defaultPageSize' => 5,
@@ -169,6 +216,7 @@ class SiteController extends Controller
              'username'=>$session->get('username'),
              'announcements' => $announcements,
              'pagination' => $pagination,
+             'images'=> $images,
          ]);
         }      
     }
@@ -184,6 +232,11 @@ class SiteController extends Controller
        
         
         $model = new EditForm();
+        
+        $images = Image::find()
+           ->indexBy('id')
+           ->all();
+        
         if ($model->load(Yii::$app->request->post()) && $model->create()) {
          
          // setting flash-message
@@ -195,6 +248,8 @@ class SiteController extends Controller
          $createdAnnouncement = Announcement::find()
              ->where(['announcementId' => $announcementId])
              ->one();
+         
+         $image = Image::findOne($createdAnnouncement['imageId']);
                  
           return $this->render('showad', [
               'message' => $session->getFlash('message'),
@@ -202,6 +257,7 @@ class SiteController extends Controller
               'loggedIn' => $session->get('loggedIn'),
               'userId' => $session->get('userId'),
               'username'=>$session->get('username'),
+              'image'=>$image['imagePath'],
         ]);
          
         }
@@ -211,6 +267,7 @@ class SiteController extends Controller
              'loggedIn' => $session->get('loggedIn'),
              'userId' => $session->get('userId'),
              'username'=>$session->get('username'),
+            'images' => $images,
         ]);
     }
     
@@ -227,15 +284,22 @@ class SiteController extends Controller
                 
         $model = new EditForm();
         
+        $images = Image::find()
+           ->indexBy('id')
+           ->all();
+        
         $announcement = Announcement::findOne((int)$announcementId);
         
         if($post = $model->load(Yii::$app->request->post())){
          
          $session->setFlash('message', 'You have successfully updated the ad.');
          
+         $announcement->imageId = $model->imageId;
          $announcement->announcementTitle = $model->title;
          $announcement->announcementDescription = $model->description;
          $announcement->save();
+         
+         $image = Image::findOne($announcement['imageId']);
          
          return $this->render('showad', [
              'message' => $session->getFlash('message'),
@@ -243,6 +307,7 @@ class SiteController extends Controller
              'userId' => $session->get('userId'),
              'username'=>$session->get('username'),
              'announcement' => $announcement,
+             'image'=>$image['imagePath'],
          ]);
         }
         
@@ -255,6 +320,7 @@ class SiteController extends Controller
               'userId' => $session->get('userId'),
               'username'=>$session->get('username'),
               'announcement' => $announcement,
+             'images' => $images,             
          ]);
         }       
     }
@@ -272,12 +338,15 @@ class SiteController extends Controller
         
         $announcement = Announcement::findOne((int)$announcementId);
         
+        $image = Image::findOne($announcement['imageId']);
+        
         return $this->render('showad', [
               'message' => $session->getFlash('message'),
               'announcement' => $announcement,
               'loggedIn' => $session->get('loggedIn'),
               'userId' => $session->get('userId'),
               'username'=>$session->get('username'),
+            'image'=> $image['imagePath'],
         ]);     
     }
      
