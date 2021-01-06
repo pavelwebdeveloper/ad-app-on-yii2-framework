@@ -6,6 +6,8 @@
     <br>
 </p>
 
+This is is a small website which is called Cars-Ads based on Yii2 framework. You can signup, login, add items (only without pictures). The link to the working website is: http://pavelportfolio.epizy.com/cars-ads/web/index.php
+
 Yii 2 Basic Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
 rapidly creating small projects.
 
