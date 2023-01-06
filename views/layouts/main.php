@@ -22,6 +22,16 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bad+Script&family=Kaushan+Script&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bad+Script&family=Kaushan+Script&family=Great+Vibes&family=Pacifico&family=Pinyon+Script&family=Moon+Dance&display=swap" rel="stylesheet">
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -30,6 +40,7 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
+        'brandOptions' => ['class' => 'oooh-baby-font'],
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -39,8 +50,9 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Ads', 'url' => ['/site/ads']],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login or Signup', 'url' => ['/site/index']]
+                ['label' => 'Login or Signup', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
@@ -67,7 +79,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left"><span style="color:purple;font-size:20px;">&copy; Cars-Ads <?= date('Y') ?></span></p>
+        <p class="pull-left"><span style="color:purple;font-size:20px;">&copy; Classic cars <?= date('Y') ?></span></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

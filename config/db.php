@@ -3,8 +3,10 @@
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=localhost;dbname=announcements',
-    'username' => 'proxyClient',
-    'password' => 'iMi20GYnzHXRrJ9B',
+    //'username' => 'proxyClient',
+	'username' => 'root',
+    //'password' => 'iMi20GYnzHXRrJ9B',
+	'password' => '',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)

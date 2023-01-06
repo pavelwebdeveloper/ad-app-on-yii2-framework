@@ -13,25 +13,39 @@ var_dump($username);
  
  <h1><?php echo $message; ?></h1>
  
- <div style="display:flex;flex-direction:row;">
- <div>  
- <?= Html::img($image, ['alt' => $announcement->announcementTitle, 'style'=>'width:250px;']) ?>
+ <div class="car-post-row">
+ <div class="post-item title-font post-item">
+     <?= $announcement->announcementTitle ?>
+ </div>
+ <div class="post-item">  
+ <?= Html::img($image, ['alt' => $announcement->announcementTitle, 'style'=>'width:250px;']) ?>  
+ </div>
+</div>
+ 
+ <div class="car-post-row">
+     <div class="description-block-size post-item">
+         <h2>
+             Description
+         </h2>
+         <div class="discription-text">
+         <?= $announcement->announcementDescription ?>
+         </div>
+     </div>
+     <div class="post-item">
+         <h2>
+             Technical characteristics
+         </h2>
+         <ul> 
   
+            <li><b>Engine:</b>&nbsp;&nbsp;<?= $announcement->engine ?></li>
+
+            <li><b>Top speed:</b>&nbsp;&nbsp;<?= $announcement->topSpeed ?></li>
+  
+        </ul>
+     </div>
   </div>
  
- <div>
- <ul>
-  
-  <li><b>title:</b>&nbsp;&nbsp;<?= $announcement->announcementTitle ?></li>
-  
-  <li><b>description:</b>&nbsp;&nbsp;<?= $announcement->announcementDescription ?></li>
-  
-  <li><b>author name:</b>&nbsp;&nbsp;<?= $announcement->announcementAuthorName ?></li>
-  
-  <li><b>creation date:</b>&nbsp;&nbsp;<?= $announcement->announcementCreationDate ?></li>
-  
- </ul>
-  </div>
+
  </div>
   
  <?php if ($loggedIn && (int)$userId[0]["siteuserId"]==$announcement->siteuserId){?>
