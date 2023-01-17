@@ -41,3 +41,4 @@ var_dump($username);
     <p>Here is <a href="https://en.wikipedia.org/wiki/List_of_automotive_museums" target="_blank">a list of many more automobile museums </a> throughout the world</p>
 </div>
 
+<button onclick="topFunction()" id="toTopButton" title="Go to top">Top</button>

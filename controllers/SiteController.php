@@ -28,6 +28,7 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
+    
  
     public function behaviors()
     {
@@ -97,9 +98,89 @@ class SiteController extends Controller
             ->all();
         
               
-     $model = new LoginForm();
+     
       if (!Yii::$app->user->isGuest) {
             return $this->render('index', [
+            'announcements' => $announcements,
+            'pagination' => $pagination,
+            'loggedIn' => $session->get('loggedIn'),
+            'userId' => $session->get('userId'),
+            'username'=>$session->get('username'),
+                'images'=> $images,
+        ]);
+        } else {
+            return $this->render('index', [
+            'announcements' => $announcements,
+            'pagination' => $pagination,
+            'loggedIn' => $session->get('loggedIn'),
+            'userId' => $session->get('userId'),
+            'username'=>$session->get('username'),
+                'images'=> $images,
+        ]);
+        }
+        
+    }
+    
+    
+      public function actionAds()
+    {
+     
+     // start a session
+     $session = Yii::$app->session;
+     $username = "name";
+     
+      $query = Announcement::find();
+      
+       $images = Image::find()
+           ->indexBy('id')
+           ->all();
+
+        $pagination = new Pagination([
+            'defaultPageSize' => 5,
+            'totalCount' => $query->count(),
+        ]);
+
+        $announcements = $query->orderBy('announcementTitle')
+            ->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        
+              
+     
+      if (!Yii::$app->user->isGuest) {
+            return $this->render('ads', [
+            'announcements' => $announcements,
+            'pagination' => $pagination,
+            'loggedIn' => $session->get('loggedIn'),
+            'userId' => $session->get('userId'),
+            'username'=>$session->get('username'),
+                'images'=> $images,
+        ]);
+        } else {
+            return $this->render('ads', [
+            'announcements' => $announcements,
+            'pagination' => $pagination,
+            'loggedIn' => $session->get('loggedIn'),
+            'userId' => $session->get('userId'),
+            'username'=>$session->get('username'),
+                'images'=> $images,
+        ]);
+        }
+        
+    }
+    
+         
+    public function actionLogin()
+    {
+     
+     // start a session
+     $session = Yii::$app->session;
+     $username = "name";
+        
+              
+     $model = new LoginForm();
+      if (!Yii::$app->user->isGuest) {
+            return $this->render('login', [
             'model' => $model,
             'announcements' => $announcements,
             'pagination' => $pagination,
@@ -123,9 +204,7 @@ class SiteController extends Controller
              $session->set('userId', $userId);
              $session->set('username', $model->username);
              
-            return $this->render('index', [
-             'announcements' => $announcements,
-             'pagination' => $pagination,
+            return $this->render('login', [
              'loggedIn' => $session->get('loggedIn'),
              'userId' => $session->get('userId'),
              'username'=>$session->get('username'),
@@ -134,17 +213,14 @@ class SiteController extends Controller
         }
 
         $model->password = '';
-        return $this->render('index', [
+        return $this->render('login', [
             'model' => $model,
-            'announcements' => $announcements,
-            'pagination' => $pagination,
             'loggedIn' => $session->get('loggedIn'),
             'userId' => $session->get('userId'),
             'username'=>$session->get('username'),
-            'images'=> $images,
         ]);      
         
-        return $this->render('index');
+        return $this->render('login');
     }
     
     /**
