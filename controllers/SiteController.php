@@ -168,6 +168,17 @@ class SiteController extends Controller
         }
         
     }
+	
+	
+    public function actionAbout()
+    {
+     
+     // start a session
+     $session = Yii::$app->session;
+     $username = "name"; 
+     
+            return $this->render('about');       
+    }
     
          
     public function actionLogin()
